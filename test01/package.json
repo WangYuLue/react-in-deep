@@ -1,4 +1,5 @@
 {
+  "name": "simple-react",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
