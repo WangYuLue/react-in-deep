@@ -8,6 +8,11 @@ import {
 const __createElement = createElement;
 
 /** @jsx __createElement */
+function Sub() {
+  return <div>sub</div>;
+}
+
+/** @jsx __createElement */
 function Counter() {
   const [state, setState] = useState(1);
   const [state2, setState2] = useState(100);
@@ -21,12 +26,13 @@ function Counter() {
       </h1>
       <div>
         {
-          state === 3 ? <div><span>a</span><span>b</span></div> : <div><div>c</div><div>d</div></div>
+          state === 3 ? <div><span>a</span><span>b</span></div> : <Sub />
         }
       </div>
       <div>
         <div style={{ fontSize: '30px' }}>wanger</div>
       </div>
+
     </div>
     // <div style={{ fontSize: '30px' }}>wanger</div>
   );

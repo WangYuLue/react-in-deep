@@ -18,6 +18,8 @@ import {
   IDispatch
 } from './models';
 
+// TODO： 为什么有时候更新不及时？
+
 let nextUnitOfWork: IFiber = null;
 let currentRoot: IFiber = null;
 let wipRoot: IFiber = null;
@@ -80,7 +82,7 @@ function updateDom(dom: IElement, prevProps: IFiberProps, nextProps: IFiberProps
     .forEach(name => {
       dom[name] = '';
     });
-
+  // TODO： 适配 style 和 class
   // 设置 新的属性
   Object.keys(nextProps)
     .filter(isProperty)
@@ -103,7 +105,7 @@ function updateDom(dom: IElement, prevProps: IFiberProps, nextProps: IFiberProps
 }
 
 function commitRoot(): void {
-  deletions.forEach(commitDeletion);
+  deletions.forEach(fiber => commitDeletion(fiber, getParentDom(fiber)));
   commitWork(wipRoot.child);
   currentRoot = wipRoot;
   wipRoot = null;
@@ -126,19 +128,26 @@ function commitWork(fiber?: IFiber) {
 
   const { effectTag, dom, alternate, props, child, sibling } = fiber;
 
-  if (effectTag === EEffectTag.PLACEMENT && !!dom) {
-    getParentDom(fiber).appendChild(dom);
-  } else if (effectTag === EEffectTag.UPDATE && !!dom) {
-    updateDom(dom, alternate.props, props);
+  if (dom) {
+    if (effectTag === EEffectTag.PLACEMENT) {
+      getParentDom(fiber).appendChild(dom);
+    } else if (effectTag === EEffectTag.UPDATE) {
+      updateDom(dom, alternate.props, props);
+    }
   }
 
   commitWork(child);
   commitWork(sibling);
 }
 
-function commitDeletion(fiber: IFiber): void {
-  getParentDom(fiber).removeChild(fiber.dom);
-}
+const commitDeletion = (fiber: IFiber, domParent: IElement) => {
+  // TODO: 为什么这边要递归寻找
+  if (fiber.dom) {
+    domParent.removeChild(fiber.dom);
+  } else {
+    commitDeletion(fiber.child, domParent);
+  }
+};
 
 function render(element: IFiber, container: HTMLElement) {
   wipRoot = {
@@ -154,6 +163,7 @@ function render(element: IFiber, container: HTMLElement) {
 
 function workLoop(deadline: IDeadline) {
   let shouldYield = false;
+
   while (nextUnitOfWork && !shouldYield) {
     nextUnitOfWork = performUnitOfWork(
       nextUnitOfWork
@@ -172,6 +182,7 @@ requestIdleCallback(workLoop);
 
 function performUnitOfWork(fiber: IFiber) {
   const isFunctionComponent = fiber.type instanceof Function;
+
   if (isFunctionComponent) {
     updateFunctionComponent(fiber as IFnFiber);
   } else {
@@ -238,10 +249,8 @@ function reconcileChildren(fiber: IFiber, elements: IFiber[]): void {
   let index = 0;
   let oldFiber = fiber.alternate && fiber.alternate.child;
   let prevSibling = null;
-
-  while (
-    index < elements.length || !!oldFiber
-  ) {
+  // TODO: 这边条件判断的原因
+  while (index < elements.length || oldFiber) {
     const element = elements[index];
     let newFiber = null;
 
