@@ -1,0 +1,80 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parserOptions": {
+    // Allows for the use of imports
+    "sourceType": "module"
+  },
+  "rules": {
+    // 禁止使用 var
+    "no-var": "error",
+    // 分号结尾
+    "semi": "error",
+    // 优先使用 interface 而不是 type
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "warn"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "block-spacing": "error",
+    "key-spacing": [
+      "error",
+      {
+        "beforeColon": false
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-single"
+    ],
+    "array-callback-return": "error",
+    "eqeqeq": "error",
+    "guard-for-in": "error",
+    "no-alert": "error",
+    "no-else-return": "error",
+    "no-extend-native": "error",
+    "no-console": "off",
+    "no-empty": "error",
+    "no-multiple-empty-lines": "error",
+    "no-unreachable": "error",
+    "no-param-reassign": "error",
+    "comma-dangle": "error",
+    "no-duplicate-imports": "error",
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    // "@typescript-eslint/no-unused-vars": [
+    //   "error"
+    // ],
+    "max-len": [
+      "error",
+      {
+        "code": 150
+      }
+    ]
+  }
+}
