@@ -18,8 +18,6 @@ import {
   IDispatch
 } from './models';
 
-// TODO： 为什么有时候更新不及时？
-
 let nextUnitOfWork: IFiber = null;
 let currentRoot: IFiber = null;
 let wipRoot: IFiber = null;
