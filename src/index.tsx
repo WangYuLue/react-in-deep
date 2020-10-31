@@ -9,7 +9,7 @@ const __createElement = createElement;
 
 /** @jsx __createElement */
 function Sub() {
-  return <div>sub</div>;
+  return <div id='subid'>sub</div>;
 }
 
 /** @jsx __createElement */
