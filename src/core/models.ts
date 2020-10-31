@@ -1,5 +1,14 @@
+export interface IProps {
+  children?: IPropsFiber[],
+  [props: string]: any
+}
+
+export interface IPropsFiber {
+  type: string;
+  props: IProps;
+}
 export interface IBaseFiber {
-  props: IFiberProps;
+  props: IProps;
   dom?: IElement;
   alternate?: IFiber;
   parent?: IFiber;
@@ -24,16 +33,11 @@ interface IHook {
   queue: IDispatch<any>[];
 }
 
-export interface IFiberProps {
-  children?: IFiber[],
-  [props: string]: any
-}
-
 export type IElement = HTMLElement | Text;
 
 export type IDispatch<T> = (action: (val: T) => void | T) => void;
 
-export type IFnType = (props: IFiberProps) => IFiber
+export type IFnType = (props: IProps) => IFiber
 
 export enum EEffectTag {
   'PLACEMENT' = 'PLACEMENT',

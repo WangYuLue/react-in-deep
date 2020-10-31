@@ -13,7 +13,8 @@ import {
   IHostFiber,
   IFnFiber,
   IFnType,
-  IFiberProps,
+  IProps,
+  IPropsFiber,
   IElement,
   EEffectTag,
   IDispatch
@@ -61,7 +62,7 @@ function createDom(fiber: IFiber): IElement {
   return dom;
 }
 
-function updateDom(dom: IElement, prevProps: IFiberProps, nextProps: IFiberProps): void {
+function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
   //移除 旧的的或者改变的监听事件
   Object.keys(prevProps)
     .filter(isEvent)                 // 过滤出当前是事件的 props
@@ -104,6 +105,8 @@ function updateDom(dom: IElement, prevProps: IFiberProps, nextProps: IFiberProps
 }
 
 function commitRoot(): void {
+  console.log(wipRoot);
+
   console.log(currentRoot);
   deletions.forEach(fiber => commitDeletion(fiber, getParentDom(fiber)));
   commitWork(wipRoot.child);
@@ -150,7 +153,7 @@ const commitDeletion = (fiber: IFiber, domParent: IElement) => {
   }
 };
 
-function render(element: IFiber, container: HTMLElement) {
+function render(element: IPropsFiber, container: HTMLElement) {
   wipRoot = {
     dom: container,
     props: {
