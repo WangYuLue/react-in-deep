@@ -31,7 +31,7 @@ export interface IFiberProps {
 
 export type IElement = HTMLElement | Text;
 
-export type IDispatch<T> = (action: (val: T) => T) => void;
+export type IDispatch<T> = (action: (val: T) => void | T) => void;
 
 export type IFnType = (props: IFiberProps) => IFiber
 

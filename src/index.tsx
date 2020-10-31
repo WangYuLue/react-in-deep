@@ -15,18 +15,27 @@ function Sub() {
 /** @jsx __createElement */
 function Counter() {
   const [state, setState] = useState(1);
-  const [state2, setState2] = useState(100);
+  const [name, setName] = useState('hello');
   return (
     <div>
       <h1 onClick={() => setState(c => c + 1)}>
         Count: {state}
       </h1>
-      <h1 onClick={() => setState2(c => c + 1)}>
-        Count: {state2}
-      </h1>
+      <div>
+        <input
+          onInput={e => setName(e.target.value)}
+          value={name}
+        />
+      </div>
+      <div>Hello {name}</div>
       <div>
         {
           state === 3 ? <div><span>a</span><span>b</span></div> : <Sub />
+        }
+      </div>
+      <div>
+        {
+          state === 1 ? <span>has</span> : undefined
         }
       </div>
       <div>

@@ -4,7 +4,8 @@ import {
   isEvent,
   isProperty,
   isNew,
-  isGone
+  isGone,
+  isFunction
 } from './utils';
 
 import {
@@ -103,6 +104,7 @@ function updateDom(dom: IElement, prevProps: IFiberProps, nextProps: IFiberProps
 }
 
 function commitRoot(): void {
+  console.log(currentRoot);
   deletions.forEach(fiber => commitDeletion(fiber, getParentDom(fiber)));
   commitWork(wipRoot.child);
   currentRoot = wipRoot;
@@ -139,7 +141,8 @@ function commitWork(fiber?: IFiber) {
 }
 
 const commitDeletion = (fiber: IFiber, domParent: IElement) => {
-  // TODO: 为什么这边要递归寻找
+  // Question: 为什么这边要递归寻找?
+  // Answer: Function 组件其实是一组特殊的 fiber,没有生成实际的 dom 对象
   if (fiber.dom) {
     domParent.removeChild(fiber.dom);
   } else {
@@ -179,9 +182,7 @@ function workLoop(deadline: IDeadline) {
 requestIdleCallback(workLoop);
 
 function performUnitOfWork(fiber: IFiber) {
-  const isFunctionComponent = fiber.type instanceof Function;
-
-  if (isFunctionComponent) {
+  if (isFunction(fiber.type)) {
     updateFunctionComponent(fiber as IFnFiber);
   } else {
     updateHostComponent(fiber as IHostFiber);
@@ -217,7 +218,11 @@ function useState<T>(initial: T): [T, IDispatch<T>] {
   const actions = oldHook ? oldHook.queue : [];
 
   actions.forEach(action => {
-    hook.state = action(hook.state);
+    if (isFunction(action)) {
+      hook.state = action(hook.state);
+    } else {
+      hook.state = action;
+    }
   });
 
   const setState: IDispatch<T> = action => {
@@ -244,16 +249,13 @@ function updateHostComponent(fiber: IFiber): void {
 }
 
 function reconcileChildren(fiber: IFiber, elements: IFiber[]): void {
-  let index = 0;
-  let oldFiber = fiber.alternate && fiber.alternate.child;
+  let oldFiber = fiber.alternate?.child;
   let prevSibling = null;
-  // TODO: 这边条件判断的原因
-  while (index < elements.length || oldFiber) {
-    const element = elements[index];
+
+  for (let x = 0; x < elements.length; x++) {
+    const element = elements[x];
     let newFiber = null;
-
     const sameType = oldFiber && element && element.type === oldFiber.type;
-
     if (sameType) {
       newFiber = {
         type: oldFiber.type,
@@ -263,36 +265,31 @@ function reconcileChildren(fiber: IFiber, elements: IFiber[]): void {
         alternate: oldFiber,
         effectTag: EEffectTag.UPDATE
       };
+    } else {
+      if (element) {
+        newFiber = {
+          type: element.type,
+          props: element.props,
+          dom: null,
+          parent: fiber,
+          alternate: null,
+          effectTag: EEffectTag.PLACEMENT
+        };
+      }
+      if (oldFiber) {
+        oldFiber.effectTag = EEffectTag.DELETION;
+        deletions.push(oldFiber);
+      }
     }
-
-    if (element && !sameType) {
-      newFiber = {
-        type: element.type,
-        props: element.props,
-        dom: null,
-        parent: fiber,
-        alternate: null,
-        effectTag: EEffectTag.PLACEMENT
-      };
-    }
-
-    if (oldFiber && !sameType) {
-      oldFiber.effectTag = EEffectTag.DELETION;
-      deletions.push(oldFiber);
-    }
-
     if (oldFiber) {
       oldFiber = oldFiber.sibling;
     }
-
-    if (index === 0) {
+    if (x === 0) {
       fiber.child = newFiber;
-    } else if (element) {
+    } else if (newFiber) {
       prevSibling.sibling = newFiber;
     }
-
     prevSibling = newFiber;
-    index++;
   }
 }
 

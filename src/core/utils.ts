@@ -8,9 +8,12 @@ const isNew = (prev: IFiberProps, next: IFiberProps) => (key: string) => prev[ke
 
 const isGone = (next: IFiberProps) => (key: string) => !(key in next);
 
+const isFunction = (key: any): boolean => key instanceof Function;
+
 export {
   isEvent,
   isProperty,
   isNew,
-  isGone
+  isGone,
+  isFunction
 };
