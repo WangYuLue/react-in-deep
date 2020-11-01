@@ -17,7 +17,7 @@ function Counter() {
   const [state, setState] = useState(1);
   const [name, setName] = useState('hello');
   return (
-    <div>
+    <div className='name' style={{ fontSize: '30px' }}>
       <h1 onClick={() => setState(c => c + 1)}>
         Count: {state}
       </h1>
@@ -41,9 +41,7 @@ function Counter() {
       <div>
         <div style={{ fontSize: '30px' }}>wanger</div>
       </div>
-
     </div>
-    // <div style={{ fontSize: '30px' }}>wanger</div>
   );
 }
 

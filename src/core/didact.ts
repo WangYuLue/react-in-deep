@@ -82,7 +82,7 @@ function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
     .forEach(name => {
       dom[name] = '';
     });
-  // TODO： 适配 style 和 class
+  // TODO： 适配 style
   // 设置 新的属性
   Object.keys(nextProps)
     .filter(isProperty)
@@ -107,7 +107,6 @@ function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
 function commitRoot(): void {
   console.log(wipRoot);
 
-  console.log(currentRoot);
   deletions.forEach(fiber => commitDeletion(fiber, getParentDom(fiber)));
   commitWork(wipRoot.child);
   currentRoot = wipRoot;
@@ -235,8 +234,8 @@ function useState<T>(initial: T): [T, IDispatch<T>] {
       props: currentRoot.props,
       alternate: currentRoot
     };
-    nextUnitOfWork = wipRoot;
     deletions = [];
+    nextUnitOfWork = wipRoot;
   };
 
   (wipFiber as IFnFiber).hooks.push(hook);
