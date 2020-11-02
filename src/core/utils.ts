@@ -1,5 +1,9 @@
 import { IProps } from './models';
 
+const hyphenateRE = /\B([A-Z])/g;
+
+const hyphenate = (str) => str.replace(hyphenateRE, '-$1').toLowerCase();
+
 const isEvent = (key: string): boolean => key.startsWith('on');
 
 const isProperty = (key: string): boolean => key !== 'children' && !isEvent(key);
@@ -15,5 +19,6 @@ export {
   isProperty,
   isNew,
   isGone,
-  isFunction
+  isFunction,
+  hyphenate
 };

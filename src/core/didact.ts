@@ -5,7 +5,8 @@ import {
   isProperty,
   isNew,
   isGone,
-  isFunction
+  isFunction,
+  hyphenate
 } from './utils';
 
 import {
@@ -63,6 +64,27 @@ function createDom(fiber: IFiber): IElement {
 }
 
 function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
+  // 移除 旧的或者改变的属性
+  Object.keys(prevProps)
+    .filter(isProperty)
+    .filter(isGone(nextProps))
+    .forEach(name => {
+      dom[name] = '';
+    });
+  // 设置 新的属性
+  Object.keys(nextProps)
+    .filter(isProperty)
+    .filter(isNew(prevProps, nextProps))
+    .forEach(name => {
+      // 对 jsx 中类似下面的 style 做额外处理
+      // <div style={{ fontSize: '30px' }}>hello</div>
+      if (name === 'style') {
+        dom[name] = Object.entries(nextProps[name])
+          .reduce((res, [name, value]) => `${res}${hyphenate(name)}:${value};`, '');
+      } else {
+        dom[name] = nextProps[name];
+      }
+    });
   //移除 旧的的或者改变的监听事件
   Object.keys(prevProps)
     .filter(isEvent)                 // 过滤出当前是事件的 props
@@ -74,23 +96,6 @@ function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
       const eventType = name.toLowerCase().substring(2);
       dom.removeEventListener(eventType, prevProps[name]);
     });
-
-  // 移除 旧的或者改变的属性
-  Object.keys(prevProps)
-    .filter(isProperty)
-    .filter(isGone(nextProps))
-    .forEach(name => {
-      dom[name] = '';
-    });
-  // TODO： 适配 style
-  // 设置 新的属性
-  Object.keys(nextProps)
-    .filter(isProperty)
-    .filter(isNew(prevProps, nextProps))
-    .forEach(name => {
-      dom[name] = nextProps[name];
-    });
-
   // 设置 新的监听事件
   Object.keys(nextProps)
     .filter(isEvent)

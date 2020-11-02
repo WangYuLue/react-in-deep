@@ -17,13 +17,13 @@ function Counter() {
   const [state, setState] = useState(1);
   const [name, setName] = useState('hello');
   return (
-    <div className='name' style={{ fontSize: '30px' }}>
+    <div className='name'>
       <h1 onClick={() => setState(c => c + 1)}>
         Count: {state}
       </h1>
       <div>
         <input
-          onInput={e => setName(e.target.value)}
+          onInput={e => setName((e.target as any).value)}
           value={name}
         />
       </div>
@@ -39,7 +39,7 @@ function Counter() {
         }
       </div>
       <div>
-        <div style={{ fontSize: '30px' }}>wanger</div>
+        <div style={{ fontSize: '30px', color: state === 2 ? 'red' : 'blue' }}>hello</div>
       </div>
     </div>
   );

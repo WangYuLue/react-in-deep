@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "lib": [
+      "es2017",
+      "DOM"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es5",
+    "noImplicitAny": false,
+    "allowJs": true,
+    "baseUrl": "./",
+  },
+  "include": [
+    "src/core"
+  ]
+}
