@@ -1,5 +1,3 @@
-import React from 'react';
-
 function createElement(type: string, props, ...children) {
   return {
     type,
@@ -24,7 +22,11 @@ function createTextElement(text: string) {
   };
 }
 
-/** @jsx createElement */
+const Didact = {
+  createElement
+};
+
+/** @jsx Didact.createElement */
 const element = (<div title='foo'>
   <span id='a'>hello</span>
   <span id='b'>world</span>
