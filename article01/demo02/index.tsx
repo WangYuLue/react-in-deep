@@ -1,3 +1,5 @@
+import React from 'react';
+
 function createElement(type: string, props, ...children) {
   return {
     type,
