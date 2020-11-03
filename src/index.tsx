@@ -2,7 +2,7 @@ import {
   createElement,
   render,
   useState
-} from './core/didact';
+} from './core/react';
 
 // __createElement 变量供 下面的 @jsx 注释使用
 const __createElement = createElement;
