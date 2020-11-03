@@ -22,11 +22,7 @@ function createTextElement(text: string) {
   };
 }
 
-const Didact = {
-  createElement
-};
-
-/** @jsx Didact.createElement */
+/** @jsx createElement */
 const element = (<div title='foo'>
   <span id='a'>hello</span>
   <span id='b'>world</span>
