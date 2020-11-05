@@ -8,8 +8,8 @@ import {
 const __createElement = createElement;
 
 /** @jsx __createElement */
-function Sub() {
-  return <div id='subid'>sub</div>;
+function Sub(props) {
+  return <div id='subid'>sub: {props.title}</div>;
 }
 
 /** @jsx __createElement */
@@ -30,7 +30,7 @@ function Counter() {
       <div>Hello {name}</div>
       <div>
         {
-          state === 3 ? <div><span>a</span><span>b</span></div> : <Sub />
+          state === 3 ? <div><span>a</span><span>b</span></div> : <Sub title={name} />
         }
       </div>
       <div>
