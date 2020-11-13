@@ -28,8 +28,23 @@ const element = (<div title='foo'>
   <span id='b'>world</span>
 </div>);
 
-document.getElementById('root').innerText = JSON.stringify(element, null, 2);
+function render(element, container) {
+  const dom =
+    element.type === 'TEXT_ELEMENT'
+      ? document.createTextNode('')
+      : document.createElement(element.type);
 
-console.log(element);
+  const isProperty = key => key !== 'children';
+  Object.keys(element.props)
+    .filter(isProperty)
+    .forEach(name => {
+      dom[name] = element.props[name];
+    });
+
+  element.props.children.forEach(child => render(child, dom));
+  container.appendChild(dom);
+}
+
+render(element, document.getElementById('root'));
 
 export { };
