@@ -6,9 +6,12 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "demo01": "parcel article01/demo01/index.html",
-    "demo02": "parcel article01/demo02/index.html",
-    "demo03": "parcel article01/demo03/index.html"
+    "demo11": "parcel article01/demo01/index.html",
+    "demo12": "parcel article01/demo02/index.html",
+    "demo13": "parcel article01/demo03/index.html",
+    "demo21": "parcel article02/demo01/index.html",
+    "demo22": "parcel article02/demo02/index.html",
+    "demo23": "parcel article02/demo03/index.html"
   },
   "dependencies": {
     "react": "^17.0.1",

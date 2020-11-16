@@ -5,8 +5,8 @@ export function fibonacci(n) {
 }
 
 export const fibonacciWithTime = (n) => {
-  console.time('计算斐波那契数列');
+  console.time('time');
   const res = fibonacci(n);
-  console.timeEnd('计算斐波那契数列');
+  console.timeEnd('time');
   return res;
 };

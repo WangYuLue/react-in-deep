@@ -1,6 +1,6 @@
 import { fibonacciWithTime } from './utils';
 
-let count = 1;
+let count = 0;
 
 const $root = document.getElementById('root');
 

@@ -1,3 +1,5 @@
+/// <reference path = "./index.d.ts" />
+
 import { fibonacciWithTime } from './utils';
 
 let count = 0;
@@ -5,16 +7,17 @@ let count = 0;
 const $root = document.getElementById('root');
 
 function render(times) {
-  setTimeout(() => {
-    let currentCount = 0;
-    while (count < times && currentCount < 10) {
+  const run = (deadline) => {
+    while ((deadline.timeRemaining() > 0 || deadline.didTimeout) && count < times) {
       fibonacciWithTime(25);
       count++;
-      currentCount++;
       $root.innerText = '当前计算个数：' + count;
     }
-    render(times);
-  }, 15);
+    if (count < times) {
+      requestIdleCallback(run);
+    }
+  };
+  requestIdleCallback(run);
 }
 
 render(10000);
