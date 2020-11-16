@@ -1,6 +1,6 @@
-/// <reference path = "../index.d.ts" />
+/// <reference path = "./index.d.ts" />
 
-import { fibonacciWithTime } from '../utils';
+import { fibonacciWithTime } from './utils';
 
 let count = 1;
 

@@ -1,4 +1,4 @@
-import { fibonacciWithTime } from '../utils';
+import { fibonacciWithTime } from './utils';
 
 let count = 1;
 
