@@ -11,7 +11,8 @@
     "demo13": "parcel article01/demo03/index.html",
     "demo21": "parcel article02/demo01/index.html",
     "demo22": "parcel article02/demo02/index.html",
-    "demo23": "parcel article02/demo03/index.html"
+    "demo23": "parcel article02/demo03/index.html",
+    "demo24": "ts-node article02/demo04/index.ts"
   },
   "dependencies": {
     "react": "^17.0.1",
@@ -22,6 +23,7 @@
     "@typescript-eslint/parser": "^4.6.0",
     "eslint": "^7.12.1",
     "parcel": "^1.12.4",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   }
 }

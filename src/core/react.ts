@@ -110,8 +110,6 @@ function updateDom(dom: IElement, prevProps: IProps, nextProps: IProps): void {
 }
 
 function commitRoot(): void {
-  console.log(wipRoot);
-
   deletions.forEach(fiber => commitDeletion(fiber, getParentDom(fiber)));
   commitWork(wipRoot.child);
   currentRoot = wipRoot;

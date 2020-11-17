@@ -7,6 +7,7 @@ export interface IPropsFiber {
   type: string;
   props: IProps;
 }
+
 export interface IBaseFiber {
   props: IProps;
   dom?: IElement;
